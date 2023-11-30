@@ -45,7 +45,7 @@ class GenInterface extends Command
                 mkdir($typePath, 0755, true);
             }
             $typeContent = $this->genTypes($data, $module);
-            file_put_contents($typePath.'/'.$module.'.ts', $typeContent);
+            file_put_contents($typePath.'/'.$module.'.d.ts', $typeContent);
         }
     }
 
