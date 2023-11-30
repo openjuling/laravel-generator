@@ -28,14 +28,24 @@ class GenInterface extends Command
      */
     public function handle()
     {
-        $files = glob(base_path('docs/api/*.json'));
+        $files = glob(base_path('/../phpmall-docs/api/*.json'));
         foreach ($files as $file) {
             $module = basename($file, '.json');
             $data = json_decode(file_get_contents($file), true);
+
+            $servicePath = storage_path('app/ts/services');
+            if (! is_dir($servicePath)) {
+                mkdir($servicePath, 0755, true);
+            }
             $serviceContent = $this->genServices($data, $module);
-            file_put_contents(storage_path('app/ts/services/'.$module.'.ts'), $serviceContent);
+            file_put_contents($servicePath.'/'.$module.'.ts', $serviceContent);
+
+            $typePath = storage_path('app/ts/types');
+            if (! is_dir($typePath)) {
+                mkdir($typePath, 0755, true);
+            }
             $typeContent = $this->genTypes($data, $module);
-            file_put_contents(storage_path('app/ts/types/'.$module.'.ts'), $typeContent);
+            file_put_contents($typePath.'/'.$module.'.ts', $typeContent);
         }
     }
 
