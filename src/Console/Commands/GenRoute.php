@@ -44,7 +44,7 @@ class GenRoute extends Command
                 glob(app_path('Bundles/*/Controllers/' . $module . '/*Controller.php'))
             );
             $routes = $this->getRoutes($files);
-            $this->genRoutes($routes, $dir . '/Routes/api.php');
+            $this->genRoutes($module, $routes, $dir . '/Routes/api.php');
         }
     }
 
@@ -97,18 +97,20 @@ class GenRoute extends Command
         return $routes;
     }
 
-    private function genRoutes(array $routes, string $routeFile): void
+    private function genRoutes(string $module, array $routes, string $routeFile): void
     {
         $routeContent = '// Route start';
+        $routeContent = "\nRoute::prefix('api/{$module}')->middleware('api')->group(function () {";
         foreach ($routes as $route) {
-            $routeContent .= "\n// " . $route['summary'];
-            $routeContent .= "\nRoute::{$route['httpMethod']}('{$route['path']}', [\\{$route['class']}::class, '{$route['action']}'])";
+            $routeContent .= "\n    // " . $route['summary'];
+            $routeContent .= "\n    Route::{$route['httpMethod']}('{$route['path']}', [\\{$route['class']}::class, '{$route['action']}'])";
             if ($route['httpMethod'] === 'get') {
                 $name = Str::replace('/', '.', $route['path']);
                 $routeContent .= "->name('$name')";
             }
             $routeContent .= ';';
         }
+        $routeContent .= "\n});";
         $routeContent .= "\n// end";
 
         $content = $this->getTemplate($routeContent);
