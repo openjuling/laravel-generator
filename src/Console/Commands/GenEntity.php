@@ -63,8 +63,11 @@ class GenEntity extends Command
     {
         $fields = "\n";
         foreach ($columns as $column) {
-            if ($column['Field'] == 'default') {
+            if ($column['Field'] === 'default') {
                 $column['Field'] = 'isDefault';
+            }
+            if ($column['Field'] === 'id' && empty($column['Comment'])) {
+                $column['Comment'] = 'ID';
             }
             $fields .= "    #[OA\\Property(property: '{$column['Field']}', description: '{$column['Comment']}', type: '{$column['SwaggerType']}')]\n";
             $fields .= '    protected '.$column['BaseType'].' $'.Str::camel($column['Field']).";\n\n";
