@@ -44,7 +44,7 @@ class GenRoute extends Command
                 glob(app_path('Bundles/*/Controllers/' . $module . '/*Controller.php'))
             );
             $routes = $this->getRoutes($files);
-            $this->genRoutes($module, $routes, $dir . '/Routes/api.php');
+            $this->genRoutes(Str::camel($module), $routes, $dir . '/Routes/api.php');
         }
     }
 
@@ -100,7 +100,7 @@ class GenRoute extends Command
     private function genRoutes(string $module, array $routes, string $routeFile): void
     {
         $routeContent = '// Route start';
-        $routeContent = "\nRoute::prefix('api/{$module}')->middleware('api')->group(function () {";
+        $routeContent .= "\nRoute::prefix('api/{$module}')->middleware('api')->group(function () {";
         foreach ($routes as $route) {
             $routeContent .= "\n    // " . $route['summary'];
             $routeContent .= "\n    Route::{$route['httpMethod']}('{$route['path']}', [\\{$route['class']}::class, '{$route['action']}'])";
