@@ -28,7 +28,7 @@ class GenInterface extends Command
      */
     public function handle()
     {
-        $files = glob(base_path('docs/api/*.json'));
+        $files = glob(storage_path('app/ts/*.json'));
         foreach ($files as $file) {
             $module = basename($file, '.json');
             $data = json_decode(file_get_contents($file), true);

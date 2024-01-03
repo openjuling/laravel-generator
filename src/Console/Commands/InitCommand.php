@@ -7,7 +7,7 @@ namespace Juling\Generator\Console\Commands;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
 
-class InstallCommand extends Command
+class InitCommand extends Command
 {
     /**
      * The name and signature of the console command.

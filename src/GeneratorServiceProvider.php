@@ -9,7 +9,7 @@ use Juling\Generator\Console\Commands\GenModel;
 use Juling\Generator\Console\Commands\GenRepository;
 use Juling\Generator\Console\Commands\GenRoute;
 use Juling\Generator\Console\Commands\GenService;
-use Juling\Generator\Console\Commands\InstallCommand;
+use Juling\Generator\Console\Commands\InitCommand;
 use Illuminate\Support\ServiceProvider;
 
 class GeneratorServiceProvider extends ServiceProvider
@@ -33,7 +33,7 @@ class GeneratorServiceProvider extends ServiceProvider
     {
         if ($this->app->runningInConsole()) {
             $this->commands([
-                InstallCommand::class,
+                InitCommand::class,
                 GenDict::class,
                 GenEntity::class,
                 GenInterface::class,

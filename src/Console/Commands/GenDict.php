@@ -56,7 +56,7 @@ class GenDict extends Command
             $content .= $this->getContent($columns);
         }
 
-        file_put_contents(base_path('docs/dict/README.md'), $content);
+        file_put_contents(storage_path('app/dict.md'), $content);
     }
 
     public function getContent($columns): string
